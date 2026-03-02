@@ -1,5 +1,5 @@
 package com.example.medica.service;
-import com.example.medica.domain.User;
+import com.example.medica.domain.UserRoot;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -12,9 +12,9 @@ public class JwtService {
 
 
    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.ES512);
-    public String generateToken(User user){
+    public String generateToken(UserRoot userRoot){
      return Jwts.builder()
-             .setSubject(user.getEmail())
+             .setSubject(userRoot.getEmail())
              .setIssuedAt(new Date())
 .setExpiration(new Date(
 System.currentTimeMillis()+1000*60*60)

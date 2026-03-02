@@ -1,15 +1,11 @@
 package com.example.medica.domain;
 
 import jakarta.persistence.*;
-
-
 import java.util.UUID;
-
 @Entity
 @Table(name = "users")
 
-
-public class User {
+public class UserRoot {
 
 @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,13 +20,15 @@ private String email;
 @Column(nullable = false)
     private String password;
 
-protected User(){
+public UserRoot(){
 
 }
-    public User(String name, String email, String password) {
+
+    public UserRoot(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+
     }
 
 

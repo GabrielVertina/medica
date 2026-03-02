@@ -1,3 +1,4 @@
+
 package com.example.medica;
 
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,6 @@
 package com.example.medica.security;
 
-import com.example.medica.domain.User;
+import com.example.medica.domain.UserRoot;
 import com.example.medica.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,12 +18,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
 public UserDetails loadUserByUsername(String email){
-User user = repository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("user not found!"));
+UserRoot userRoot = repository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("user not found!"));
 
 return org.springframework.security.core.userdetails.User
-.withUsername(user.getEmail()).username(user.getName()).password(user.getPassword()).build();
-
-
+.withUsername(userRoot.getEmail())
+        .username(userRoot.getName())
+        .password(userRoot.getPassword())
+.build();
     }
 
 }
