@@ -27,7 +27,7 @@ userRoot.setEmail(dto.getEmail());
 userRoot.setPassword(encoder.encode(dto.getPassword()));
 repository.save(userRoot);
 
-String token = jwtService.generateToken(userRoot);
+String token = jwtService.generateToken(userRoot.getEmail());
 return new AuthResponseDTO(token);
 
 }
@@ -39,7 +39,7 @@ public AuthResponseDTO login(LoginRequestDTO dto){
 if (!encoder.matches(dto.getPassword(),userRoot.getPassword())){
     throw new RuntimeException("Senha invalida");
 }
-return new AuthResponseDTO(jwtService.generateToken(userRoot));
+return new AuthResponseDTO(jwtService.generateToken(userRoot.getEmail()));
 
 }
 
