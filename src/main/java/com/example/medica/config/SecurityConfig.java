@@ -3,7 +3,6 @@ package com.example.medica.config;
 import com.example.medica.security.JwtAuthFilter;
 import com.example.medica.security.UserDetailsServiceImpl;
 
-import java.security.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +34,8 @@ private final JwtAuthFilter jwtAuthFilter;
 http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated())
-        .userDetailsService(userDetailsService)
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .userDetailsService(userDetailsService)
         .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class);
  return http.build();
 
@@ -47,12 +46,6 @@ http.csrf(csrf -> csrf.disable())
      return new BCryptPasswordEncoder();
 
 }
-
-
-
-
-
-
 
 
 

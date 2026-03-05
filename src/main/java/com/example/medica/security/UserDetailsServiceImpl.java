@@ -21,10 +21,10 @@ public UserDetails loadUserByUsername(String email){
 UserRoot userRoot = repository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("user not found!"));
 
 return org.springframework.security.core.userdetails.User
-.withUsername(userRoot.getEmail())
-        .username(userRoot.getName())
+        .withUsername(userRoot.getEmail())
         .password(userRoot.getPassword())
-.build();
+        .authorities("USER")
+        .build();
     }
 
 }

@@ -35,9 +35,8 @@ public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsSe
 protected  void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException
 
 {
-
-final String authHeader = request.getHeader("Authorized");
-
+System.out.println("JWT FILTER EXECUTADO");
+final String authHeader = request.getHeader("Authorization");
 if(authHeader == null|| !authHeader.startsWith("Bearer ")){
 filterChain.doFilter(request, response);
 return;
@@ -54,19 +53,13 @@ UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(email);
 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
 
 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+SecurityContextHolder.getContext().setAuthentication(authToken);
 }
 
 filterChain.doFilter(request, response);
 
 
-
-
 }
-
-
-
-
 
 
 }
