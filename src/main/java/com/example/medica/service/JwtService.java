@@ -2,6 +2,7 @@ package com.example.medica.service;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
@@ -74,6 +75,14 @@ return Jwts.parserBuilder()
 .getSubject();
 
 }
+
+
+public boolean isTokenValid(String token, UserDetails userDetails){
+    String username = extractUsername(token);
+return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+}
+
+
 
 
 }

@@ -2,6 +2,8 @@ package com.example.medica.security;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +23,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     
 private final JwtService jwtService;
 private final UserDetailsServiceImpl userDetailsServiceImpl;
-
+private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
 public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsServiceImpl){
 
@@ -35,13 +37,17 @@ public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsSe
 protected  void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException
 
 {
-System.out.println("JWT FILTER EXECUTADO");
-final String authHeader = request.getHeader("Authorization");
+log.info("JWT FILTER EXECUTADO");
+
+    final String authHeader = request.getHeader("Authorization");
 if(authHeader == null|| !authHeader.startsWith("Bearer ")){
 filterChain.doFilter(request, response);
 return;
 
 }
+
+
+try{
 
 String token = authHeader.substring(7);
 String email = jwtService.extractUsername(token);
@@ -50,16 +56,25 @@ if(email !=null && SecurityContextHolder.getContext().getAuthentication() == nul
 {
 
 UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(email);
-UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
 
-authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+if(jwtService.isTokenValid(token, userDetails)){
+
+
+UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities()
+);
+
+authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)
+);
 SecurityContextHolder.getContext().setAuthentication(authToken);
-}
+}   
 
 filterChain.doFilter(request, response);
 
 
+}catch(Exception e){
+
 }
 
 
+}
 }
