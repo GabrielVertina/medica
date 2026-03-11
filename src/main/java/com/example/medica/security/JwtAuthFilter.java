@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.medica.service.JwtService;
 
+import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,15 +21,18 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
+
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     
 private final JwtService jwtService;
 private final UserDetailsServiceImpl userDetailsServiceImpl;
 private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
-public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsServiceImpl){
+public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsServiceImpl, JwtAccessDeniedHandler jwtAccessDeniedHandler){
 
     this.jwtService = jwtService;
     this.userDetailsServiceImpl = userDetailsServiceImpl;
+    this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
 
 }
 
@@ -57,7 +61,7 @@ if(email !=null && SecurityContextHolder.getContext().getAuthentication() == nul
 
 UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(email);
 
-if(jwtService.isTokenValid(token, userDetails)){
+if(jwtService.isTokenValid(token, (UserDetailsServiceImpl) userDetails)){
 
 
 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities()
@@ -68,13 +72,20 @@ authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)
 SecurityContextHolder.getContext().setAuthentication(authToken);
 }   
 
+
+
+log.info("token valido");
+
+}
+}
+
+catch(Exception e){
+
+log.info("Token Invalido");
+}
+
 filterChain.doFilter(request, response);
-
-
-}catch(Exception e){
+}
 
 }
 
-
-}
-}

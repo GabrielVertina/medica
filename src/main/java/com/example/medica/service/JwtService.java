@@ -1,9 +1,14 @@
 package com.example.medica.service;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.example.medica.security.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,10 +28,13 @@ import java.util.Date;
 public class JwtService {
 private PrivateKey privateKey;
 private PublicKey publicKey;
+private  final Logger log = LoggerFactory.getLogger(getClass());
+
+
 @PostConstruct
 public void init() throws Exception{
       
-System.out.println(new ClassPathResource("keys/private-key.pem").exists());
+
 
 InputStream privateStream = new ClassPathResource("keys/private-key.pem").getInputStream();
 
@@ -76,14 +84,29 @@ return Jwts.parserBuilder()
 
 }
 
+public Boolean isTokenValid(String token,UserDetailsServiceImpl userDetails){
+    try{
+        Jwts.parserBuilder().setSigningKey(publicKey)
+        .build()
+        .parseClaimsJws(token);
+        return true;
+    }catch(Exception e){
+         log.info("Access Deny, unauthorized user.");
 
-public boolean isTokenValid(String token, UserDetails userDetails){
-    String username = extractUsername(token);
-return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+return false;
+
+}
+
+
 }
 
 
 
 
-}
+
+
+
+
+
 
