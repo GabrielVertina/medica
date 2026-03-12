@@ -20,15 +20,20 @@ private String email;
 @Column(nullable = false)
     private String password;
 
+@Column(unique = true, nullable = false)
+private String crm;
+
+
+
 public UserRoot(){
 
 }
 
-    public UserRoot(String name, String email, String password) {
+    public UserRoot(String name, String email, String password, String crm) {
         this.name = name;
         this.email = email;
         this.password = password;
-
+        this.crm = crm;
     }
 
 
@@ -63,4 +68,17 @@ public UserRoot(){
     public void setPassword(String password) {
         this.password = password;
     }
+
+public void setCrm(String crm){
+    this.crm =crm;
+
+}
+
+public String getCrm(){
+    return crm;
+}
+
+
+
+
 }
