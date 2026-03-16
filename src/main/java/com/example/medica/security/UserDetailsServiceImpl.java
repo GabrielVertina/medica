@@ -1,6 +1,6 @@
 package com.example.medica.security;
 
-import com.example.medica.domain.UserRoot;
+import com.example.medica.model.UserRoot;
 import com.example.medica.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

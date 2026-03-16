@@ -24,9 +24,9 @@ HttpServletRequest request,
 )throws IOException, ServletException{
 
 
-log.info("Access Deny, unauthorized user.");
-response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+log.info("Access garanteed");
 
+response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorized");
 
 
 }

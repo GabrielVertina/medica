@@ -36,7 +36,6 @@ public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsSe
 
 }
 
-
 @Override
 protected  void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException
 
@@ -50,7 +49,6 @@ return;
 
 }
 
-
 try{
 
 String token = authHeader.substring(7);
@@ -62,8 +60,6 @@ if(email !=null && SecurityContextHolder.getContext().getAuthentication() == nul
 UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(email);
 
 if(jwtService.isTokenValid(token, (UserDetailsServiceImpl) userDetails)){
-
-
 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities()
 );
 
@@ -71,8 +67,6 @@ authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)
 );
 SecurityContextHolder.getContext().setAuthentication(authToken);
 }   
-
-
 
 log.info("token valido");
 

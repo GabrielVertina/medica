@@ -1,4 +1,4 @@
-package com.example.medica.domain;
+package com.example.medica.model;
 
 import jakarta.persistence.*;
 import java.util.UUID;
@@ -21,7 +21,7 @@ private String email;
     private String password;
 
 @Column(unique = true, nullable = false)
-private String crm;
+private boolean verified;
 
 
 
@@ -29,11 +29,11 @@ public UserRoot(){
 
 }
 
-    public UserRoot(String name, String email, String password, String crm) {
+    public UserRoot(String name, String email, String password, boolean verified) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.crm = crm;
+        this.verified = verified;
     }
 
 
@@ -69,13 +69,13 @@ public UserRoot(){
         this.password = password;
     }
 
-public void setCrm(String crm){
-    this.crm =crm;
+public void setVerified(boolean verified){
+    this.verified = verified;
 
 }
 
-public String getCrm(){
-    return crm;
+public boolean getVerified(){
+    return verified;
 }
 
 
