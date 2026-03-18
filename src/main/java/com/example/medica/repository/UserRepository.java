@@ -1,16 +1,17 @@
 package com.example.medica.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.medica.model.UserRoot;
-
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<UserRoot, UUID> {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    Optional<UserRoot> findByEmail(String email);
+import com.example.medica.entity.User;
 
-boolean existsByEmail(String email);
+
+public interface UserRepository extends JpaRepository<User, UUID>{
+    
+Optional<User> findById(UUID id);
+Optional <User> findByEmail(String email);
+
 
 }
