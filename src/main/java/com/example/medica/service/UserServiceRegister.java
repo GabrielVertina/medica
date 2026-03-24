@@ -1,4 +1,10 @@
 package com.example.medica.service;
+import com.example.medica.repository.UserRepository;
+
+import java.beans.Encoder;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.medica.dto.TokenDTO;
@@ -9,21 +15,40 @@ import com.example.medica.entity.User;
 @Service
 public class UserServiceRegister {
     
-    public TokenDTO userRegister (UserDtoRegister userDtoRegister){
+    private final UserRepository userRepository;
+private final PasswordEncoder passwordEncoder;
+
+    UserServiceRegister(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public TokenDTO userRegister(UserDtoRegister userDtoRegister, PasswordEncoder passwordEncoder, TokenDTO jwtoken) {
 User user = new User();
 
 try {
-    
-user.setName(null);
 
+    user.setName(userDtoRegister.getName());
+user.setEmail(userDtoRegister.getEmail());
+// se o usuario inserir um email que ja esta cadastrado no banco, ou seja ja passou pelo jpa, retorna exceção;
+if(userRepository.existsByEmail(userDtoRegister.getEmail()))
+    throw new Exception("Email ja cadastrado");
 
-
-
+  user.setPassword(passwordEncoder.encode(userDtoRegister.getPassword()));  // Use the instance method
+userRepository.save(user);
 
 } catch (Exception e) {
     // TODO: handle exception
 }
 
+
+return jwtoken;
+
     }
+
+
+
+
+
 
 }

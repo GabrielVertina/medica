@@ -27,6 +27,7 @@ private String password;
 @Column
 private Boolean verified;
 
+public User(){}
 
 
 public User(UUID id, String name, String email, String password, Boolean verified) {
