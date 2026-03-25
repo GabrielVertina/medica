@@ -1,10 +1,13 @@
 package com.example.medica.service;
 
 import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.KeyFactory;
 import java.security.PrivateKey;
 import org.springframework.stereotype.Service;
 
@@ -21,21 +24,21 @@ public void JwtService(String privateKeyPath, String publicKeyPath){
 
 }
 
-private PrivateKey loadPrivateKey(String Path){
-    try {
+private PrivateKey loadPrivateKey(String Path) throws Exception{
+
         String key = new String (Files.readAllBytes(Paths.get("C:\\Users\\gabri\\medica\\src\\main\\resources\\keys\\private-key.pem"   )));
         
-key.replace("-----BEGIN PRIVATE KEY-----","");
+key.replace("-----BEGIN PRIVATE KEY-----","")
+.replace("-----END PRIVATE KEY-----","")
+.replaceAll("\\s", "");
 
+byte[] decode = Base64.getDecoder().decode(key);
 
+PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decode);
 
+KeyFactory keyFactory = KeyFactory.getInstance("EC");
      
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-
-
+return keyFactory.generatePrivate(spec);
 }
 
 
