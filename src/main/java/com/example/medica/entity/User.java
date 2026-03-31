@@ -17,25 +17,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column
    private UUID id;
- @Column
-private String name; 
+ 
+   @Column
+
+   private String name; 
 @Email
 @Column
 private String email;
 @Column
 private String password;
-@Column
-private Boolean verified;
+//@Column
+//private Boolean verified;
 
 public User(){}
 
 
-public User(UUID id, String name, String email, String password, Boolean verified) {
+public User(UUID id, String name, String email, String password) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-    this.verified = verified;
+
+    //this.verified = verified;
 }
 
 public String getName() {
@@ -59,10 +62,11 @@ public void setPassword(String password) {
 public UUID getId() {
     return id;
 }
-public Boolean getVerified() {
+
+/*public Boolean getVerified() {
     return verified;
 }
-
+*/
 
 
 }

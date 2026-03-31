@@ -1,21 +1,16 @@
 package com.example.medica.service;
 import com.example.medica.repository.UserRepository;
-
-import java.beans.Encoder;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.example.medica.dto.TokenDTO;
 import com.example.medica.dto.UserDtoRegister;
 import com.example.medica.entity.User;
-
 
 @Service
 public class UserServiceRegister {
     
     private final UserRepository userRepository;
+@SuppressWarnings("unused")
 private final PasswordEncoder passwordEncoder;
 
     UserServiceRegister(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -23,10 +18,8 @@ private final PasswordEncoder passwordEncoder;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public TokenDTO userRegister(UserDtoRegister userDtoRegister, PasswordEncoder passwordEncoder, TokenDTO jwtoken) {
+    public TokenDTO userRegister(UserDtoRegister userDtoRegister, PasswordEncoder passwordEncoder, TokenDTO jwtoken) throws Exception {
 User user = new User();
-
-try {
 
     user.setName(userDtoRegister.getName());
 user.setEmail(userDtoRegister.getEmail());
@@ -34,21 +27,11 @@ user.setEmail(userDtoRegister.getEmail());
 if(userRepository.existsByEmail(userDtoRegister.getEmail()))
     throw new Exception("Email ja cadastrado");
 
-  user.setPassword(passwordEncoder.encode(userDtoRegister.getPassword()));  // Use the instance method
+  user.setPassword(passwordEncoder.encode(userDtoRegister.getPassword()));  
 userRepository.save(user);
-
-} catch (Exception e) {
-    // TODO: handle exception
-}
-
 
 return jwtoken;
 
     }
-
-
-
-
-
 
 }
