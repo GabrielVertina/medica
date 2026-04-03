@@ -18,7 +18,7 @@ private final PasswordEncoder passwordEncoder;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public TokenDTO userRegister(UserDtoRegister userDtoRegister, PasswordEncoder passwordEncoder, TokenDTO jwtoken) throws Exception {
+    public TokenDTO userRegister(UserDtoRegister userDtoRegister, PasswordEncoder passwordEncoder, TokenDTO tokenDTO) throws Exception {
 User user = new User();
 
     user.setName(userDtoRegister.getName());
@@ -30,8 +30,13 @@ if(userRepository.existsByEmail(userDtoRegister.getEmail()))
   user.setPassword(passwordEncoder.encode(userDtoRegister.getPassword()));  
 userRepository.save(user);
 
-return jwtoken;
+return tokenDTO;
 
     }
+
+  
+
+
+    
 
 }
