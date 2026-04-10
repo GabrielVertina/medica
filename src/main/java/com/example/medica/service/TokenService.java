@@ -25,8 +25,7 @@ public TokenService(PrivateKey privateKey, PublicKey publicKey) {
         this.publicKey = publicKey;
 }
 
-public void JwtService(String privateKeyPath, String publicKeyPath){
-}
+
 
 private PrivateKey loadPrivateKey() throws Exception {
 

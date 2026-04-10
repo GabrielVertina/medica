@@ -23,23 +23,23 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-public AuthController()
+public  TokenDTO userRegister (@RequestBody UserDtoRegister dto){
 
+return userServiceRegister.userRegister(dto, null, null);
 
-
-
-
-}
 
 }
 
 
 
 
+}
 
 
 
-   }
+
+
+
 
 
 
