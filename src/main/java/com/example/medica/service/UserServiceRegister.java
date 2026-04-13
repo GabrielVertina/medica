@@ -36,8 +36,7 @@ this.tokenService = tokenService;
         user.setPassword(passwordEncoder.encode(userDtoRegister.getPassword()));
         userRepository.save(user);
 
-String token = tokenService.generateToken(user.getEmail());
-return new RetornaTokenDto(token);
+
 
     }
 

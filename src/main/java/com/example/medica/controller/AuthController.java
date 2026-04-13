@@ -1,5 +1,6 @@
 package com.example.medica.controller;
 
+import com.example.medica.dto.RetornaTokenDto;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +24,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-public  TokenDTO userRegister (@RequestBody UserDtoRegister dto){
+public RetornaTokenDto userRegister (@RequestBody UserDtoRegister dto) throws Exception {
 
-return userServiceRegister.userRegister(dto, null, null);
+return userServiceRegister.userRegister(dto);
 
 
 }

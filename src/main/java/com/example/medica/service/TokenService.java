@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.security.SignatureException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,18 +22,20 @@ public class TokenService {
 private PrivateKey privateKey;   
 private PublicKey publicKey;
 private Date date;
-public TokenService(PrivateKey privateKey, PublicKey publicKey) {
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
+
+
+@PostConstruct
+private void loadKeys() throws Exception{
+    this.privateKey = loadPrivateKey();
+    this.publicKey = loadPublicKey();
+
 }
-
-
 
 private PrivateKey loadPrivateKey() throws Exception {
 
         String key = new String (Files.readAllBytes(Paths.get("C:\\Users\\gabri\\medica\\src\\main\\resources\\keys\\private-key.pem")));
         
-key.replace("-----BEGIN PRIVATE KEY-----","")
+key = key.replace("-----BEGIN PRIVATE KEY-----","")
 .replace("-----END PRIVATE KEY-----","")
 .replaceAll("\\s", "");
 
@@ -47,7 +51,7 @@ return keyFactory.generatePrivate(spec);
 private PublicKey loadPublicKey() throws Exception{
 
 String key = new String(Files.readAllBytes(Paths.get("src\\main\\resources\\keys\\public-key.pem")));
-key.replace("-----BEGIN PUBLIC KEY-----", "")
+key = key.replace("-----BEGIN PUBLIC KEY-----", "")
 .replace("-----END PUBLIC KEY-----","")
 .replaceAll("\\s","");
 
@@ -60,7 +64,7 @@ return keyFactory.generatePublic(spec);
 public String generateToken(String email){
 return  Jwts.builder()
 .setSubject(email)
-.setIssuedAt(date)
+.setIssuedAt(new Date())
 .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*4))
 .signWith(privateKey, SignatureAlgorithm.ES512)
 .compact();

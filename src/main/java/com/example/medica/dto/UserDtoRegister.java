@@ -7,7 +7,6 @@ public class UserDtoRegister {
     private String name;
     private String password;
     private String email;
-private Boolean verified;
 
 
 
@@ -33,9 +32,6 @@ public String getEmail() {
 }
 public void setEmail(String email) {
     this.email = email;
-}
-public Boolean getVerified() {
-    return verified;
 }
 
 

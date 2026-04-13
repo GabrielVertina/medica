@@ -26,8 +26,7 @@ public class User {
 private String email;
 @Column
 private String password;
-//@Column
-//private Boolean verified;
+
 
 public User(){}
 
@@ -38,7 +37,6 @@ public User(UUID id, String name, String email, String password) {
     this.email = email;
     this.password = password;
 
-    //this.verified = verified;
 }
 
 public String getName() {
@@ -63,10 +61,6 @@ public UUID getId() {
     return id;
 }
 
-/*public Boolean getVerified() {
-    return verified;
-}
-*/
 
 
 }
