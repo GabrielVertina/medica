@@ -62,13 +62,20 @@ return keyFactory.generatePublic(spec);
 }
 
 public String generateToken(String email){
+    // if email do usuário esta validado
+
+
 return  Jwts.builder()
 .setSubject(email)
 .setIssuedAt(new Date())
 .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*4))
 .signWith(privateKey, SignatureAlgorithm.ES512)
 .compact();
+
+//else
+// retorna email nao verificado
 }
+
 
 public Boolean validateToken(String jwtoken){
         try{
