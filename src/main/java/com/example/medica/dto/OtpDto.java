@@ -6,7 +6,8 @@ public class OtpDto {
  this.otpCode = otpCode;
  }
 
-public String getOtp(){
+public String getOtpCode(){
      return otpCode;
+
 }
 }
