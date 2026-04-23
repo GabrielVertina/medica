@@ -26,17 +26,16 @@ public class User {
 private String email;
 @Column
 private String password;
-@Column
-private boolean verified;
+
 public User(){}
 
 
-public User(UUID id, String name, String email, String password,Boolean verified) {
+public User(UUID id, String name, String email, String password) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-this.verified = verified;
+
 }
 
 public String getName() {
@@ -61,7 +60,5 @@ public UUID getId() {
     return id;
 }
 
-public boolean getVerified(){
-    return verified;
-}
+
 }

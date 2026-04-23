@@ -1,11 +1,10 @@
 package com.example.medica.controller;
 
-import com.example.medica.dto.RetornaTokenDto;
+import com.example.medica.dto.*;
+import com.example.medica.service.ServiceOTP;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.medica.dto.TokenDTO;
-import com.example.medica.dto.UserDtoRegister;
 import com.example.medica.service.UserServiceRegister;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +17,10 @@ import com.example.medica.service.UserServiceRegister;
 public class AuthController {
    
     private final UserServiceRegister userServiceRegister;
-    
-    public AuthController(UserServiceRegister userServiceRegister){
+    private final ServiceOTP serviceOTP;
+    public AuthController(UserServiceRegister userServiceRegister, ServiceOTP serviceOTP){
         this.userServiceRegister = userServiceRegister;
+    this.serviceOTP = serviceOTP;
     }
 
     @PostMapping("/register")
@@ -30,7 +30,6 @@ return userServiceRegister.userRegister(dto);
 
 
 }
-
 
 
 

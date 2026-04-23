@@ -15,15 +15,12 @@ private final PasswordEncoder passwordEncoder;
 
 private final TokenService tokenService;
 
-
-
     public UserServiceRegister(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
 this.tokenService = tokenService;
 
     }
-
 
     public RetornaTokenDto userRegister(UserDtoRegister userDtoRegister) throws Exception {
         User user = new User();
@@ -39,11 +36,11 @@ this.tokenService = tokenService;
         userRepository.save(user);
 
             String token = tokenService.generateToken(user.getEmail());
+
             return new RetornaTokenDto(token);
         }
 
         }
-
 
 
 

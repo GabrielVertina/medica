@@ -21,10 +21,7 @@ public SecurityFilterChain filterChain(HttpSecurity httpSec)throws Exception{
             .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/register").permitAll()
-                    .requestMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated()
-
+                    .requestMatchers("/auth/register").authenticated().anyRequest().permitAll()
 
             );
 

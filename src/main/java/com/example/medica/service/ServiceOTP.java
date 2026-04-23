@@ -1,38 +1,49 @@
 package com.example.medica.service;
 
 import com.example.medica.dto.OtpDto;
+import com.example.medica.dto.OtpRequestDto;
 import com.example.medica.dto.UserDtoRegister;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceOTP {
 
-@Autowired
-private StringRedisTemplate redisTemplate;
-private JavaMailSender mailSender;
+
+    private final RedisTemplate<String, String> redisTemplate;
+private static final String PREFIX = "otp:";
+private static final long EXPIRATION_MINUTES = 10;
+
+    public ServiceOTP(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
 
-public OtpDto generateOtp(UserDtoRegister userDtoRegister){
-    String email = userDtoRegister.getEmail();
+    public String generateOTP(String email){
+String code = String.format("%0d6",new SecureRandom().nextInt(999999));
+String key = PREFIX + email;
+redisTemplate.opsForValue().set(key,code,EXPIRATION_MINUTES, TimeUnit.MINUTES);
+  return code;
+    }
+public boolean validaOtp(String email, String inputCode) {
+    String key = PREFIX + email;
+    String storedCode = redisTemplate.opsForValue().get(key);
+    if (storedCode == null) {
+        throw new RuntimeException();
+    } else if (!storedCode.equals(inputCode)) {
+throw new RuntimeException();
+    }
+redisTemplate.delete(key);
+    return true;
+    }}
 
-    String otp = String.valueOf((int)(Math.random()*900000)+100000);
-redisTemplate.opsForValue().set("otp:" + email ,otp, Duration.ofMinutes(5));
-sendEmail(email,otp);
-return new OtpDto(email);
-}
-
-private void sendEmail(String to,String otp){
-    SimpleMailMessage message = new SimpleMailMessage();
-    message.setTo(to);
-message.setSubject("Codigo de verificacao");
-    message.setText("Seu código OTP é: " + otp);
-    mailSender.send(message);
-}
-
-}
