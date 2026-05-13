@@ -15,6 +15,11 @@ public class OtpRequestDto {
 
     }
 
+    public String getOtpCode(){
+
+        return otpCode;
+    }
+
         public String getEmail() {
             return email;
         }

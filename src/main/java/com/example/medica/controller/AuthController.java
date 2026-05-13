@@ -2,6 +2,8 @@ package com.example.medica.controller;
 
 import com.example.medica.dto.*;
 import com.example.medica.service.ServiceOTP;
+import com.example.medica.service.TokenService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,17 +20,26 @@ public class AuthController {
    
     private final UserServiceRegister userServiceRegister;
     private final ServiceOTP serviceOTP;
-    public AuthController(UserServiceRegister userServiceRegister, ServiceOTP serviceOTP){
+    private final TokenService tokenService;
+
+    public AuthController(UserServiceRegister userServiceRegister, ServiceOTP serviceOTP, TokenService tokenService){
         this.userServiceRegister = userServiceRegister;
     this.serviceOTP = serviceOTP;
+   this.tokenService = tokenService;
     }
 
     @PostMapping("/register")
-public RetornaTokenDto userRegister (@RequestBody UserDtoRegister dto) throws Exception {
+public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) {
+        String message = userServiceRegister.userRegister(dto);
+        return ResponseEntity.ok(message);
+    }
 
-return userServiceRegister.userRegister(dto);
+    
+@PostMapping("/verify-otp")
+public ResponseEntity<RetornaTokenDto> verifyotp(@RequestBody OtpRequestDto dto){
+    serviceOTP.validaOtp(dto.getEmail(),dto.getOtpCode());
 
-
+        }
 }
 
 
