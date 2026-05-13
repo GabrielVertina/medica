@@ -3,7 +3,7 @@ package com.example.medica.service;
 import com.example.medica.dto.OtpDto;
 import com.example.medica.dto.OtpRequestDto;
 import com.example.medica.dto.UserDtoRegister;
-import lombok.RequiredArgsConstructor;
+import com.example.medica.util.OtpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@RequiredArgsConstructor
+
 public class ServiceOTP {
 
 
@@ -30,7 +30,7 @@ private static final long EXPIRATION_MINUTES = 10;
 
 
     public String generateOTP(String email){
-String code = String.format("%0d6",new SecureRandom().nextInt(999999));
+String code = OtpUtil.generateOtp(6);
 String key = PREFIX + email;
 redisTemplate.opsForValue().set(key,code,EXPIRATION_MINUTES, TimeUnit.MINUTES);
   return code;
@@ -39,9 +39,9 @@ public boolean validaOtp(String email, String inputCode) {
     String key = PREFIX + email;
     String storedCode = redisTemplate.opsForValue().get(key);
     if (storedCode == null) {
-        throw new RuntimeException();
+        throw new RuntimeException("Código OTP expirado ou não encontrado.");
     } else if (!storedCode.equals(inputCode)) {
-throw new RuntimeException();
+throw new RuntimeException("Código OTP inválido.");
     }
 redisTemplate.delete(key);
     return true;
