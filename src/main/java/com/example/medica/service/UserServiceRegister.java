@@ -24,7 +24,7 @@ this.serviceOTP = serviceOTP;
     this.sendMail = sendMail;
     }
 
-    public void userRegister(UserDtoRegister userDtoRegister) throws Exception {
+    public String userRegister(UserDtoRegister userDtoRegister) throws Exception {
         User user = new User();
         user.setName(userDtoRegister.getName());
         user.setEmail(userDtoRegister.getEmail());
@@ -35,19 +35,24 @@ this.serviceOTP = serviceOTP;
 user.setVerified(false);
 
         userRepository.save(user);
-String code = serviceOTP.generateOTP(userDtoRegister.getEmail());
-sendMail.sendOtp(userDtoRegister.getEmail(),code);
+        String otp = serviceOTP.generateOTP(userDtoRegister.getEmail());
+        sendMail.sendOtp(userDtoRegister.getEmail(), otp);
 
-        
-
-
-
-          //  String token = tokenService.generateToken(user.getEmail());
+        return "Cadastro realizado. Verifique seu email.";
+    }
 
 
-        }
+public void verifiedUser(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+    user.setVerified(true);
+    userRepository.save(user);
+}
 
-        }
+
+
+}
+
 
 
 

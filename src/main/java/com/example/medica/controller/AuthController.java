@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) {
+public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) throws Exception {
         String message = userServiceRegister.userRegister(dto);
         return ResponseEntity.ok(message);
     }
@@ -38,13 +38,16 @@ public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) {
 @PostMapping("/verify-otp")
 public ResponseEntity<RetornaTokenDto> verifyotp(@RequestBody OtpRequestDto dto){
     serviceOTP.validaOtp(dto.getEmail(),dto.getOtpCode());
+userServiceRegister.verifiedUser(dto.getEmail());
+String token = tokenService.generateToken(dto.getEmail());
 
+return ResponseEntity.ok(new RetornaTokenDto(token));
         }
 }
 
 
 
-}
+
 
 
 
