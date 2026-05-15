@@ -12,7 +12,6 @@ import com.example.medica.service.UserServiceRegister;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.medica.service.UserServiceRegister;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,7 +35,7 @@ public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) thr
 
     
 @PostMapping("/verify-otp")
-public ResponseEntity<RetornaTokenDto> verifyotp(@RequestBody OtpRequestDto dto){
+public ResponseEntity<RetornaTokenDto> verifiedUser(@RequestBody OtpRequestDto dto){
     serviceOTP.validaOtp(dto.getEmail(),dto.getOtpCode());
 userServiceRegister.verifiedUser(dto.getEmail());
 String token = tokenService.generateToken(dto.getEmail());
