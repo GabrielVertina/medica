@@ -33,7 +33,7 @@ private void loadKeys() throws Exception{
 
 private PrivateKey loadPrivateKey() throws Exception {
 
-        String key = new String (Files.readAllBytes(Paths.get("C:\\Users\\gabri\\medica\\src\\main\\resources\\keys\\private-key.pem")));
+        String key = new String (Files.readAllBytes(Paths.get("C:\\Users\\gabri\\medica\\src\\main\\resources\\keys\\private.pem")));
         
 key = key.replace("-----BEGIN PRIVATE KEY-----","")
 .replace("-----END PRIVATE KEY-----","")
@@ -50,7 +50,7 @@ return keyFactory.generatePrivate(spec);
 
 private PublicKey loadPublicKey() throws Exception{
 
-String key = new String(Files.readAllBytes(Paths.get("src\\main\\resources\\keys\\public-key.pem")));
+String key = new String(Files.readAllBytes(Paths.get("src\\main\\resources\\keys\\public.pem")));
 key = key.replace("-----BEGIN PUBLIC KEY-----", "")
 .replace("-----END PUBLIC KEY-----","")
 .replaceAll("\\s","");
