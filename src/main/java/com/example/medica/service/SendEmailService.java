@@ -16,7 +16,7 @@ public void sendOtp(String to, String code){
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(to);
 message.setSubject("Seu codigo de verificacao ");
-message.setText("Seu codigo OTP e"+code+"\nEle Expira em 10 minutos");
+message.setText("Seu codigo OTP e "+code+"\nEle Expira em 10 minutos");
 mailSender.send(message);
 }
 

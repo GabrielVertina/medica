@@ -1,14 +1,14 @@
 package com.example.medica.dto;
 
 public class RetornaOtpDto {
-    private String otpCode;
+    private String code;
 
-    public RetornaOtpDto(String otpCode) {
-        this.otpCode = otpCode;
+    public RetornaOtpDto(String code) {
+       this.code= code;
     }
 
     public String getOtpCode() {
-        return otpCode;
+        return code;
 
     }
 }
