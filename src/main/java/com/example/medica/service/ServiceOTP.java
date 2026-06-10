@@ -25,9 +25,9 @@ redisTemplate.opsForValue().set(key,email,EXPIRATION_MINUTES, TimeUnit.MINUTES);
   return code;
     }
 
-public String validaOtp(String email, String inputCode) {
+public String validaOtp( String inputCode) {
     String key = PREFIX + inputCode;
- email = redisTemplate.opsForValue().get(key);
+ String email = redisTemplate.opsForValue().get(key);
 if(email == null){
     throw new RuntimeException("CODIGO EXPIRADO OU NAO ENCONTRADO");
 }

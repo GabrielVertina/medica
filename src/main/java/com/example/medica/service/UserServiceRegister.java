@@ -41,13 +41,13 @@ user.setVerified(false);
         return "Cadastro realizado. Verifique seu email.";
     }
 
-
-public void verifiedUser(String email){
+    public void verifiedUser(String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
-    user.setVerified(true);
-    userRepository.save(user);
-}
+        user.setVerified(true);
+        userRepository.save(user);
+    }
+
 
 
 

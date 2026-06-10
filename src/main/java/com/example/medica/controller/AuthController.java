@@ -36,14 +36,16 @@ public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) thr
     
 @PostMapping("/verify-otp")
 public ResponseEntity<RetornaTokenDto> verifiedUser(@RequestBody OtpRequestDto dto){
-   serviceOTP.validaOtp(dto.getEmail(),dto.getOtpCode());
-userServiceRegister.verifiedUser(dto.getEmail());
-String token = tokenService.generateToken(dto.getEmail());
+    String email = serviceOTP.validaOtp(dto.getOtpCode());
 
-return ResponseEntity.ok(new RetornaTokenDto(token));
+    userServiceRegister.verifiedUser(email);
 
+    String token =
+            tokenService.generateToken(email);
 
-
+    return ResponseEntity.ok(
+            new RetornaTokenDto(token)
+    );
         }
 }
 
