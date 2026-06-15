@@ -8,13 +8,9 @@ public class UserDtoRegister {
     private String password;
     private String email;
 
-
-
 public UUID getId() {
     return id;
 }
-
-
 public String getName() {
     return name;
 }
@@ -34,6 +30,4 @@ public void setEmail(String email) {
     this.email = email;
 }
 
-
-    
 }

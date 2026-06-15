@@ -33,6 +33,11 @@ public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) thr
         return ResponseEntity.ok(message);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> userLogin(@RequestBody UserDtoLogin dto)throws Exception{
+
+
+    }
     
 @PostMapping("/verify-otp")
 public ResponseEntity<RetornaTokenDto> verifiedUser(@RequestBody OtpRequestDto dto){
