@@ -6,7 +6,7 @@ import com.example.medica.service.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.medica.service.UserServiceLogin;
 import com.example.medica.service.UserServiceRegister;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +20,11 @@ public class AuthController {
     private final UserServiceRegister userServiceRegister;
     private final ServiceOTP serviceOTP;
     private final TokenService tokenService;
+private final UserServiceLogin userServiceLogin;
 
-    public AuthController(UserServiceRegister userServiceRegister, ServiceOTP serviceOTP, TokenService tokenService){
+    public AuthController(UserServiceRegister userServiceRegister, ServiceOTP serviceOTP,
+                          TokenService tokenService,UserServiceLogin userServiceLogin){
+       this.userServiceLogin = userServiceLogin;
         this.userServiceRegister = userServiceRegister;
     this.serviceOTP = serviceOTP;
    this.tokenService = tokenService;
@@ -34,8 +37,13 @@ public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) thr
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> userLogin(@RequestBody UserDtoLogin dto)throws Exception{
+    public ResponseEntity<RetornaTokenDto> userLogin(@RequestBody UserDtoLogin dto)throws Exception{
+String login = userServiceLogin.userLogin(dto);
+String token = tokenService.generateToken(dto.getEmail());
 
+        return ResponseEntity.ok(
+                new RetornaTokenDto(token)
+        );
 
     }
     

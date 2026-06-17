@@ -3,6 +3,10 @@ import com.example.medica.dto.UserDtoLogin;
 import com.example.medica.entity.User;
 import com.example.medica.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+
+@Service
 public class UserServiceLogin {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -23,6 +27,6 @@ public class UserServiceLogin {
         )) {
             throw new RuntimeException("Senha incorreta");
         }
-        return "Login realizado";
+        return userDtoLogin.getEmail();
     }
 }

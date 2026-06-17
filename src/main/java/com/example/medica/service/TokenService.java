@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 
+import com.example.medica.entity.User;
+import com.example.medica.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.security.SignatureException;
@@ -22,7 +24,12 @@ public class TokenService {
 private PrivateKey privateKey;   
 private PublicKey publicKey;
 private Date date;
+    private final UserRepository userRepository;
 
+public TokenService(UserRepository userRepository){
+this.userRepository = userRepository;
+
+}
 
 @PostConstruct
 private void loadKeys() throws Exception{
@@ -62,18 +69,15 @@ return keyFactory.generatePublic(spec);
 }
 
 public String generateToken(String email){
-    // if email do usuário esta validado
 
-
-return  Jwts.builder()
+return Jwts.builder()
 .setSubject(email)
 .setIssuedAt(new Date())
 .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*4))
 .signWith(privateKey, SignatureAlgorithm.ES512)
 .compact();
 
-//else
-// retorna email nao verificado
+
 }
 
 
