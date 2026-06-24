@@ -28,13 +28,19 @@ private String email;
 private String password;
 @Column
 private boolean verified;
+
+@Column
+private String role;
+
+
 public User(){}
 
 
-public User(UUID id, String name, String email, String password,Boolean verified) {
+public User(UUID id, String name, String email, String password,Boolean verified, String role) {
     this.id = id;
     this.name = name;
     this.email = email;
+    this.role= role;
     this.password = password;
 this.verified = verified;
 }
@@ -71,9 +77,15 @@ public UUID getId() {
     public void setVerified(boolean verified) {
         this.verified = verified;
     }
-public boolean getVerified(){
+public boolean getVerified() {
 
     return verified;
+}
+    public String getRole(){
+        return role;
+    }
+public void setRole(String role){
+    this.role= role;
 }
 
 }

@@ -12,6 +12,7 @@ import java.security.PrivateKey;
 
 import com.example.medica.entity.User;
 import com.example.medica.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.security.SignatureException;
@@ -78,6 +79,7 @@ return Jwts.builder()
 .compact();
 
 
+
 }
 
 
@@ -101,5 +103,17 @@ System.out.print("Token não assinado."+e.getMessage());
 
 return false;
 }
+public String extractEmail(String token){
+    Claims claims = Jwts.parserBuilder()
+            .setSigningKey(publicKey)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+
+return claims.getSubject();
+}
+
+
+
 
 }

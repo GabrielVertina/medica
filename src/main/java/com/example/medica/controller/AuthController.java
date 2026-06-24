@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.medica.service.UserServiceLogin;
 import com.example.medica.service.UserServiceRegister;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/auth")
@@ -40,26 +38,27 @@ public ResponseEntity<String> userRegister(@RequestBody UserDtoRegister dto) thr
     public ResponseEntity<RetornaTokenDto> userLogin(@RequestBody UserDtoLogin dto)throws Exception{
 String login = userServiceLogin.userLogin(dto);
 String token = tokenService.generateToken(dto.getEmail());
-
         return ResponseEntity.ok(
                 new RetornaTokenDto(token)
         );
-
     }
     
 @PostMapping("/verify-otp")
 public ResponseEntity<RetornaTokenDto> verifiedUser(@RequestBody OtpRequestDto dto){
     String email = serviceOTP.validaOtp(dto.getOtpCode());
-
     userServiceRegister.verifiedUser(email);
-
     String token =
             tokenService.generateToken(email);
-
     return ResponseEntity.ok(
             new RetornaTokenDto(token)
     );
         }
+
+@PostMapping("/helloworld")
+public String hello(){
+        return "Ola mundo";
+}
+
 }
 
 
